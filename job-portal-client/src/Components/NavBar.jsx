@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
+import { useState } from 'react';
 
+import { FaBarsStaggered, FaXmark } from 'react-icons/fa6';
 import { Link, NavLink } from 'react-router-dom';
-import {FaBarsStaggered, FaXmark} from 'react-icons/fa6';
 
 const NavBar = () => {
   const [isMenuOpen,setIsMenuOpen]=useState(false);
+  
   const handleMenuToggler=()=>{
     setIsMenuOpen(!isMenuOpen)
   }
+
+  const photoURL = sessionStorage.getItem("photoURL");
+  const handleLogout=()=>{
+      sessionStorage.removeItem('isAuthenticated');
+      window.location.reload();
+  }
+ 
   const navItem=[
     {path:"/",title:"Start A Search"},
     {path:"/my-job",title:"My Jobs"},
@@ -15,9 +23,9 @@ const NavBar = () => {
     {path:"/post-job",title:"Post A Job"}
   ]
   return (
-    <header className='max-w-screen-2xl container max-auto xl:px-24 px-4'>
-      <nav className='flex justify-between items-center py-6'>
-        <a href="/" className='flex items-center gap-2 text-2xl text-black'><img src="images/logo.jpg" alt=""  width={"70px"} className='rounded-full'/><span>JobPortal</span></a>
+    <header className='max-w-screen-2xl container mx-auto xl:px-24  px-4 '>
+      <nav className='flex justify-between items-center py-6 '>
+        <a href="/" className=''><img src="images/result (1).png" alt=""  className=' h-10 w-52'/></a>
         {/* nav Item for large device */}
         <ul className='hidden md:flex gap-12'>
           {
@@ -31,10 +39,18 @@ const NavBar = () => {
           }
         </ul>
         {/* sign up and login buttons */}
-        <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
-          <Link to="/login" className='py-2 px-5 border rounded'>Login</Link>
-          <Link to="/sign-up" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</Link>
-        </div>
+        {sessionStorage.getItem('isAuthenticated') ? (
+          <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
+            <button onClick={handleLogout} className='py-2 px-5 border rounded bg-blue text-white'>Logout</button>
+            <img src={photoURL} className='w-12 h-12 inline rounded-full border border-white object-cover' alt="" />
+          </div>
+        ):(
+          <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
+            <Link to="/login" className='py-2 px-5 border rounded'>Login</Link>
+            <Link to="/sign-up" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</Link>
+          </div>
+        )}
+        
         {/* mobile menu */}
         <div className='md:hidden block'>
           <button onClick={handleMenuToggler}>

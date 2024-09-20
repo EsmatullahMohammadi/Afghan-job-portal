@@ -6,14 +6,27 @@ const CreateJob = () => {
     const [selectOption, setSelectedOption]= useState(null);
     const {
         register,
+        reset,
         handleSubmit,
         formState: { errors },
       } = useForm();
     
       const onSubmit = (data) =>{
         data.skills=selectOption;
-         console.log(data)
-
+        //  console.log(data)
+        fetch("http://localhost:3000/post-job",{
+            method : "POST",
+            headers : {'content-type': 'application/json'},
+            body : JSON.stringify(data)
+        }) 
+            .then(res=>res.json()) 
+            .then((result)=>{
+                console.log(result)
+                if(result.acknowledged === true){
+                    alert("Job Posted Successfully!!!")
+                }
+                reset();
+            })   
       }
 
     const option=[
@@ -29,9 +42,9 @@ const CreateJob = () => {
     ]
     
   return (
-    <div className='max-w-screen-2xl container max-auto xl:px-24 px-4 '>
+    <div className='max-w-screen-2xl container mx-auto xl:px-24 px-4 '>
         {/* Form */}
-        <div className='bg-[#FAFAFA] py-10 px-4 lg:px-16'>
+        <div className='bg-gray-100 py-10 px-4 lg:px-16'>
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
                 {/* first row */}
                 <div className='create-job-flex'>
