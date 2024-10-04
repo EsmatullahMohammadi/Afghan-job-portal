@@ -8,8 +8,9 @@ import MyJobs from "../Pages/MyJobs";
 import SallaryPage from "../Pages/SallaryPage";
 import UpadateJobs from "../Pages/UpadateJobs";
 import Login from "../Components/Login";
-import SignUp from "../Components/SingUp";
 import ProtectedRoute from "../Components/ProtectedRoute";
+import SignUp from "../Components/SignUp";
+import ForgotPassword from "../Components/ForgotPassword";
 
   const router = createBrowserRouter([
     {
@@ -22,7 +23,11 @@ import ProtectedRoute from "../Components/ProtectedRoute";
         },
         {
             path:"/post-job",
-            element: <CreateJob />
+            element:(
+              <ProtectedRoute>
+                <CreateJob />
+              </ProtectedRoute>
+            )
         },
         {
           path:"/my-job",
@@ -38,7 +43,11 @@ import ProtectedRoute from "../Components/ProtectedRoute";
        },
        {
          path:"/edit-job/:id",
-         element: <UpadateJobs />,
+         element: (
+          <ProtectedRoute>
+            <UpadateJobs />
+          </ProtectedRoute>
+        ),
          loader: ({params}) => fetch(`http://localhost:3000/all-jobs/${params.id}`)
       },
       {
@@ -48,6 +57,10 @@ import ProtectedRoute from "../Components/ProtectedRoute";
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/frogot-password",
+        element: <ForgotPassword />,
       }
       ]
     }

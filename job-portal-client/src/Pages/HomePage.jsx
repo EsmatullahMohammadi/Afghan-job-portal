@@ -4,6 +4,9 @@ import Card from '../Components/Card';
 import Jobs from './Jobs';
 import SideBare from '../sideBare/SideBare';
 import NewsLatter from '../Components/NewsLatter';
+import Skeleton from '../Components/Skeleton';
+import i18n from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 const HomePage = () => {
   const [selectedCatagory,setSelectedCatagory]=useState(null);
@@ -11,6 +14,8 @@ const HomePage = () => {
   const [isLoading, seIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage=6;
+
+  const { t } = useTranslation();
 
   useEffect(()=>{
     seIsLoading(true);
@@ -85,7 +90,7 @@ const HomePage = () => {
 
   const result=filterData(jobs, selectedCatagory, query);
   return (
-    <div>
+    <div className='bg-gray-100 h-screen' dir={`${i18n.language === 'fa' ? 'rtl' : 'ltr'}`}>
       <Bunner query={query} handleInputChange={handleInputChange}/>
       {/* main content */}
       <div className='bg-[#FAFAFA] md:grid grid-cols-4 gap-8 lg:px-24 px-4 py-12'>
@@ -95,7 +100,7 @@ const HomePage = () => {
         {/* main content */}
         <div className='bg-white p-4 col-span-2 rounded-sm'> 
           {
-            isLoading ? (<p className='font-medium'>Loadding...</p>) : result.length>0 ? (<Jobs result={result}/>) :
+            isLoading ? (<Skeleton />) : result.length>0 ? (<Jobs result={result}/>) :
              <>
               <h3 className='text-lg font-bold mb-2'>{result.length} Jobs</h3>
               <p>No data found!</p>

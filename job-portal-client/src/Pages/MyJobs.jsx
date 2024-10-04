@@ -9,15 +9,11 @@ const MyJobs = () => {
     const[currentPage,setCurrentPage] = useState(1);
     const itemPerPage=4;
 
-    const isAuthenticated = sessionStorage.getItem('isAuthenticated');
     const email = sessionStorage.getItem('email');
-    const navigate=useNavigate();
+
     
     useEffect(()=>{
-        // If not authenticated, redirect to the login page
-        if (!isAuthenticated) {
-            return navigate("/login")
-        }
+
         setIsLoading(true);
         fetch(`http://localhost:3000/myJobs/${email}`).
             then(res => res.json()).
@@ -63,7 +59,7 @@ const MyJobs = () => {
     }
     
   return (
-    <div className='max-w-screen-2xl container max-auto xl:px-24 px-4 bg-gray-100'>
+    <div className='max-w-screen-2xl container max-auto xl:px-24 px-4 bg-gray-100 h-screen'>
         <div className='my-jobs-container'>
             <h1 className='text-center p-4'>All My Job</h1>
             <div className='search-box p-2 text-center mb-2'>

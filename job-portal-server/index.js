@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const multer = require("multer")
+const path = require("path");
 const port = process.env.PORT || 3000;
 
 require('dotenv').config();
@@ -8,6 +10,7 @@ require('dotenv').config();
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use('/public/images',express.static('public/images'))
 
 // Connect to MongoDB
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -33,10 +36,23 @@ async function run() {
         const jobsCollection = db.collection("demoJobs");
 
         // Post a job
-        app.post('/post-job', async (req, res) => {
+        const storage = multer.diskStorage({
+            destination: (req , file , cb)=>{
+                cb(null , "public/images")
+            },
+            filename : (req, file , cb)=>{
+                cb(null , file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+            }
+        })
+        const upload = multer({
+            storage: storage
+        })
+        app.post('/post-job', upload.single('file'), async (req, res) => {
             try {
                 const body = req.body;
                 body.createdAt = new Date(); // Correct field name `createdAt`
+                body.companyLogo = req.file.filename;
+                console.log(req.file)
                 
                 const result = await jobsCollection.insertOne(body);
         
@@ -97,20 +113,65 @@ async function run() {
         })
 
         // Update a job
-        app.patch('/update-job/:id', async(req,res)=>{
-            const id =req.params.id;
-            const jobData=req.body;
-            const filter={_id: new ObjectId(id)};
-            const options ={upsert: true};
-            const updateDoc={
-                $set:{
-                    ...jobData
-                },
+        
+        app.patch('/update-job/:id', upload.single('file'), async (req, res) => {
+            try {
+                const id = req.params.id;
+                const jobData = req.body;
+                console.log(jobData)
+                // Check if a file is uploaded, otherwise keep the old company logo
+                if (req.file) {
+                    jobData.companyLogo = req.file.filename;
+                }
+        
+                // Fields to update (Make sure not to update fields like _id, etc.)
+                const updateDoc = {
+                    $set: {
+                        jobTitle: jobData.jobTitle,
+                        companyName: jobData.companyName,
+                        minPrice: jobData.minPrice,
+                        maxPrice: jobData.maxPrice,
+                        salaryType: jobData.salaryType,
+                        jobLocation: jobData.jobLocation,
+                        postingDate: jobData.postingDate,
+                        experienceLevel: jobData.experienceLevel,
+                        employmentType: jobData.employmentType,
+                        description: jobData.description,
+                        posteBy: jobData.posteBy,
+                        skills: JSON.parse(jobData.skills), // Assuming skills is a JSON string
+                    }
+                };
+        
+                // If companyLogo exists, update it, otherwise, leave it untouched
+                if (jobData.companyLogo) {
+                    updateDoc.$set.companyLogo = jobData.companyLogo;
+                }
+        
+                const filter = { _id: new ObjectId(id) };
+                const result = await jobsCollection.updateOne(filter, updateDoc);
+        
+                if (result.modifiedCount > 0) {
+                    return res.status(200).send({
+                        message: "Job updated successfully!",
+                        status: true,
+                        result: result
+                    });
+                } else {
+                    return res.status(404).send({
+                        message: "Job not found or no changes made.",
+                        status: false
+                    });
+                }
+            } catch (error) {
+                console.error("Error updating job:", error.message);
+                return res.status(500).send({
+                    message: "Server error. Please try again later.",
+                    status: false,
+                    error: error.message
+                });
             }
-            const result= await jobsCollection.updateOne(filter, updateDoc,options);
-            res.send(result);
-        })
-
+        });
+        
     } catch (error) {
         console.log("Error connecting to MongoDB:", error.message);
     }
