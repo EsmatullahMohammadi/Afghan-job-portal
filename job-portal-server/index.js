@@ -16,8 +16,8 @@ app.use('/public/images',express.static('public/images'))
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 // Store sensitive data in environment variables for security
-// const uri = process.env.MONGODB_URI || `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@job-portal-demo.teqzn.mongodb.net/?retryWrites=true&w=majority&appName=job-portal-demo`;
-const uri = "mongodb://localhost:27017/"
+const uri = process.env.MONGODB_URI || `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@job-portal-demo.teqzn.mongodb.net/?retryWrites=true&w=majority&appName=job-portal-demo`;
+// const uri = "mongodb://localhost:27017/"
 const client = new MongoClient(uri, {
     serverApi: {
         version: ServerApiVersion.v1,
@@ -52,7 +52,7 @@ async function run() {
                 const body = req.body;
                 body.createdAt = new Date(); // Correct field name `createdAt`
                 body.companyLogo = req.file.filename;
-                console.log(req.file)
+                req.body.skills = JSON.parse(req.body.skills)
                 
                 const result = await jobsCollection.insertOne(body);
         

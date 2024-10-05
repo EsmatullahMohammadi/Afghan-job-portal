@@ -55,7 +55,7 @@ const Login = () => {
           console.log(user.email)
           navigate('/my-job');
         }
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((error) => {
         setError(error.message);

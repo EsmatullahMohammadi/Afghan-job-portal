@@ -54,6 +54,7 @@ const MyJobs = () => {
              }).then(res=>res.json()).then(data=>{
             if(data.acknowledged === true){
                 alert("Job Deleted Successfully!!!");
+                window.location.reload();
             }
         })
     }

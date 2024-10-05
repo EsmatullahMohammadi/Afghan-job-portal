@@ -34,9 +34,9 @@ const NavBar = () => {
   ]
   
   return (
-    <header className='max-w-screen-2xl container mx-auto xl:px-24  px-4 sticky top-0 z-500 bg-white shadow-md'>
+    <header className='max-w-screen-2xl container mx-auto xl:px-24  px-4 sticky top-0 z-500 bg-white shadow-md border-b-2 border-b-gray-500'>
       <nav className={`flex justify-between items-center py-6 `}>
-        <a href="/" className=''><img src="images/result (1).png" alt=""  className=' h-10 w-52'/></a>
+        <a href="/" className=''><img src="images/result (1).png" alt="Afghn Jop Portal"  className=' h-10 w-52 border-0'/></a>
         {/* nav Item for large device */}
         <ul dir={`${i18n.language === 'fa' ? 'rtl' : 'ltr'}`} className='hidden md:flex gap-12 font-iransans'>
           {
@@ -70,8 +70,8 @@ const NavBar = () => {
           {sessionStorage.getItem('isAuthenticated') ? (
             <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
               <button onClick={handleLogout} className='py-2 px-5 border border-blue rounded  text-black hover:bg-blue hover:text-white'>{t('logout')}</button>
-              <img src={photoURL==="null" ? "images/userLogo.png":photoURL }
-                className="w-12 h-12 inline rounded-full border border-blue object-cover"
+              <img src={photoURL || "images/userLogo.png" }
+                className="w-12 h-12 inline rounded-full border object-cover"
                 alt="User Profile"
               />
             </div>
