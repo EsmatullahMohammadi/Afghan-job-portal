@@ -12,7 +12,7 @@ app.use(express.json());
 // app.use(cors());
 app.use(cors({
     origin: ['https://afghan-job-portal.vercel.app/'],
-    methods: ['POST', 'GET', 'DELETE', 'PUT'],
+    methods: ['POST', 'GET', 'DELETE', 'PATCH'],
     credentials: true
 }));
 app.use('/public/images',express.static('public/images'))
