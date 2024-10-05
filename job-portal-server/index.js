@@ -11,7 +11,7 @@ require('dotenv').config();
 app.use(express.json());
 // app.use(cors());
 app.use(cors({
-    origin: ['https://afghan-job-portal.vercel.app/'],
+    origin: ['https://afghan-job-portal-git-main-esmatullahs-projects.vercel.app/'],
     methods: ['POST', 'GET', 'DELETE', 'PUT'],
     credentials: true
 }));
