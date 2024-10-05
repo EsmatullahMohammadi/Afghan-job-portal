@@ -15,7 +15,7 @@ const MyJobs = () => {
     useEffect(()=>{
 
         setIsLoading(true);
-        fetch(`http://localhost:3000/myJobs/${email}`).
+        fetch(`https://afghan-job-portal-backend.onrender.com/myJobs/${email}`).
             then(res => res.json()).
             then(data=>{
                 setJobs(data);
@@ -48,7 +48,7 @@ const MyJobs = () => {
     }
 
     const handlDelete=(id)=>{
-        fetch(`http://localhost:3000/job/${id}` ,
+        fetch(`https://afghan-job-portal-backend.onrender.com/job/${id}` ,
              {
                 method : "DELETE"
              }).then(res=>res.json()).then(data=>{

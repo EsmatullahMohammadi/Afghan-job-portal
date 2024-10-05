@@ -48,7 +48,7 @@ import ForgotPassword from "../Components/ForgotPassword";
             <UpadateJobs />
           </ProtectedRoute>
         ),
-         loader: ({params}) => fetch(`http://localhost:3000/all-jobs/${params.id}`)
+         loader: ({params}) => fetch(`https://afghan-job-portal-backend.onrender.com/all-jobs/${params.id}`)
       },
       {
         path: "/sign-up",

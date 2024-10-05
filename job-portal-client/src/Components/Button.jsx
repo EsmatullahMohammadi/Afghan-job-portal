@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 
 const Button = ({onClickHandler, value, title}) => {

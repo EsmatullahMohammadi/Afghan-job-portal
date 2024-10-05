@@ -25,7 +25,7 @@ const Card = ({ data }) => {
       <Link to="/" className="flex gap-4 flex-col sm:flex-row items-start">
         <div className="w-64 h-64">
           <img
-            src={`http://localhost:3000/public/images/${companyLogo}`}
+            src={`https://afghan-job-portal-backend.onrender.com/public/images/${companyLogo}`}
             alt={`logo`}
             className="rounded-sm object-cover"
           />
