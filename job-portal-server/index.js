@@ -23,6 +23,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 // Store sensitive data in environment variables for security
 const uri = process.env.MONGODB_URI || `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@job-portal-demo.teqzn.mongodb.net/?retryWrites=true&w=majority&appName=job-portal-demo`;
 
+// defaulat api
 app.get('/',(req,res)=>{
     res.json("hello vercel")
 })
