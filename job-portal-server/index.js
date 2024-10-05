@@ -9,12 +9,12 @@ require('dotenv').config();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
-// app.use(cors({
-//     origin: ['https://vercel.app/'],
-//     methods: ['POST', 'GET', 'DELETE', 'PUT'],
-//     credentials: true
-// }));
+// app.use(cors());
+app.use(cors({
+    origin: ['https://afghan-job-portal.vercel.app/'],
+    methods: ['POST', 'GET', 'DELETE', 'PUT'],
+    credentials: true
+}));
 app.use('/public/images',express.static('public/images'))
 
 // Connect to MongoDB
