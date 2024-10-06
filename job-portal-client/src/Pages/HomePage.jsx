@@ -19,8 +19,8 @@ const HomePage = () => {
 
   useEffect(()=>{
     seIsLoading(true);
-    fetch('https://afghan-job-portal-backend.onrender.com/all-jobs').then(res=>res.json()).then(data=>{
-      setJobs(data);
+    fetch('https://afghan-job-portal-api.onrender.com/all-jobs').then(res=>res.json()).then(data=>{
+      setJobs(data);console.log(data)
       seIsLoading(false);
     })
   },[])

@@ -57,7 +57,7 @@ const UpdateJobs = () => {
         }
 
         try {
-            const response = await fetch(`https://afghan-job-portal-backend.onrender.com/update-job/${_id}`, {
+            const response = await fetch(`https://afghan-job-portal-api.onrender.com/update-job/${_id}`, {
                 method: 'PATCH',
                 body: formData,
             });

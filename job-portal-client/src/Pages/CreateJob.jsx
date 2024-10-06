@@ -34,7 +34,7 @@ const CreateJob = () => {
             formData.append('file', companyLogo);
         }
         
-        fetch("https://afghan-job-portal-backend.onrender.com/post-job", {
+        fetch("https://afghan-job-portal-api.onrender.com/post-job", {
             method: "POST",
             body: formData,
         })
